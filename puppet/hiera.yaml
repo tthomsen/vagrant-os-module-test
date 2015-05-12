@@ -1,0 +1,7 @@
+---
+:backends:
+  - json
+:json:
+  :datadir: /var/lib/hiera
+:hierachy:
+  - common
