@@ -2,12 +2,12 @@
 rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
 sed -i 's/enabled=0/enabled=1/g' /etc/yum.repos.d/puppetlabs.repo
 
-## A reasonable PATH
-#echo "export PATH=$PATH:/usr/local/bin:/opt/puppet/bin" >> /etc/bashrc
+#update and install puppet
 yum update -y
 yum install puppet -y
 yum install git -y
 
+#Copy puppet files
 cp /vagrant/puppet/hiera.yaml /etc/puppet
 cp /vagrant/puppet/Puppetfile /etc/puppet
 cp -r /vagrant/.ssh /root
@@ -16,8 +16,19 @@ mkdir /etc/puppet/manifests
 cp /vagrant/puppet/site.pp /etc/puppet/manifests
 cp /vagrant/puppet/common.json /var/lib/hiera
 
+#add ruby
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+curl -sSL https://get.rvm.io | bash -s stable
+source /etc/profile
+
+rvm install 1.9.3
+rvm use 1.9.3 --default
+
+#install gems
 gem install r10k
+gem install rake
+gem install bundle
 
 PUPPETFILE=/etc/puppet/Puppetfile PUPPETFILE_DIR=/etc/puppet/modules r10k puppetfile install --verbose debug2 --color
 
-puppet apply /etc/puppet/manifests/site.pp
+#puppet apply /etc/puppet/manifests/site.pp
