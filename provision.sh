@@ -21,14 +21,8 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
 curl -sSL https://get.rvm.io | bash -s stable
 source /etc/profile
 
-rvm install 1.9.3
-rvm use 1.9.3 --default
+rvm install 2.2.3
+rvm use 2.2.3 --default
 
 #install gems
-gem install r10k
-gem install rake
 gem install bundle
-
-PUPPETFILE=/etc/puppet/Puppetfile PUPPETFILE_DIR=/etc/puppet/modules r10k puppetfile install --verbose debug2 --color
-
-#puppet apply /etc/puppet/manifests/site.pp
